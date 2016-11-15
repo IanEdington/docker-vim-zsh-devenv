@@ -3,7 +3,9 @@ FROM alpine:latest
 MAINTAINER IanEdington <IanEdington@gmail.com>
 ENV LastUpdate 2016-11-13-21-47
 
-RUN echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories
+RUN echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories
+RUN echo '@community http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories
+RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
 
 RUN apk update \
  && apk upgrade \
@@ -82,9 +84,9 @@ RUN mkdir -p /home/developer/workspace
 # npm doesn't want to work
 RUN apk add \
  the_silver_searcher \
- nodejs
-# editorconfig \
-# rust \
+ editorconfig@community \
+ nodejs \
+ rust@testing
 # mono \
 
 # add npm dependencies
@@ -92,11 +94,42 @@ RUN apk add nodejs
 RUN npm install -g eslint jshint typescript
 
 # install dotfiles
-RUN git clone https://gitlab.com/IanEdington/dotfiles.git ~/.dotfiles
-RUN ~/.dotfiles/install
+RUN git clone --depth 1 https://gitlab.com/IanEdington/dotfiles.git ~/.dotfiles
+
+# symlink dotfiles
+RUN ln -s ~/.dotfiles/zsh ~/.zsh
+RUN ln -s ~/.zsh/zshenv ~/.zshenv
+RUN ln -s ~/.dotfiles/vim ~/.vim
+RUN ln -s ~/.vim/vimrc ~/.vimrc
+RUN ln -s ~/.vim/editorconfig ~/.editorconfig
+RUN mkdir -p ~/.config/git
+RUN ln -s ~/.dotfiles/git/config ~/.config/git/config
+RUN ln -s ~/.dotfiles/git/ignore ~/.config/git/ignore
+
+# download and install prezto for zsh
+RUN git clone --depth 1 https://github.com/sorin-ionescu/prezto.git ~/.zsh/.zprezto \
+ && cd ~/.zsh/.zprezto \
+ && git submodule update --init --remote --recursive
+RUN ln -s ~/.zsh/.zprezto/runcoms/zlogin ~/.zsh/.zlogin
+RUN ln -s ~/.zsh/.zprezto/runcoms/zlogout ~/.zsh/.zlogout
+RUN ln -s ~/.zsh/.zprezto/runcoms/zpreztorc ~/.zsh/.zpreztorc
+RUN ln -s ~/.zsh/.zprezto/runcoms/zprofile ~/.zsh/.zprofile
+RUN ln -s ~/.zsh/.zprezto/runcoms/zshenv ~/.zsh/.zshenv
+
+# download and install vundle for vim
+RUN git clone --depth 1 https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim \
+ && cd ~/.vim/bundle/Vundle.vim \
+ && git submodule update --init --remote --recursive
+
+RUN vim -E -u NONE -S ~/.vim/start_vundle.zshrc +PluginInstall +qall
+# RUN mkdir ~/.cache
+# RUN vim +PluginInstall +qall
+
+RUN cd ~/.vim/bundle/YouCompleteMe \
+ && ./install.py --gocode-completer --tern-completer
 
 # install java
-RUN apk add openjdk8@community
+RUN apk add openjdk8
 
 # puts javac in the PATH
 ENV PATH=/usr/lib/jvm/java-1.8-openjdk/bin:$PATH

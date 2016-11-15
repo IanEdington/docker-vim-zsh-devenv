@@ -11,7 +11,7 @@ Start container with volumes attached
 ## TODO
 [x] create running image with vim and zsh
 [ ] implement yarn instead of npm
-[ ]
+[ ] compile YouCompleteMe with c# and rust
 [ ]
 [ ]
 [ ]
