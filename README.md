@@ -15,3 +15,21 @@ Start container with volumes attached
 [ ]
 [ ]
 [ ]
+
+## Usage
+~~~bash
+docker run -it -v ~/Code:/code -v ~/Google/Learn:/learn --name container_name ie/java:dev
+~~~
+
+Attach to that container
+
+~~~
+docker exec -it container_name zsh
+~~~
+
+## Give credit where credit is due
+This project wouldn't be possible without the prior art.
+Thank you to the following inspirations.
+
+@JAremko for alpine-vim  
+@skwp for Yadr dotfiles
