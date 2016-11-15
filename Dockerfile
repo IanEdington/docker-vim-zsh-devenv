@@ -79,6 +79,18 @@ ENV HOME /home/developer
 ENV TERM screen-256color
 RUN mkdir -p /home/developer/workspace
 
+# npm doesn't want to work
+RUN apk add \
+ the_silver_searcher \
+ nodejs
+# editorconfig \
+# rust \
+# mono \
+
+# add npm dependencies
+RUN apk add nodejs
+RUN npm install -g eslint jshint typescript
+
 # install dotfiles
 RUN git clone https://gitlab.com/IanEdington/dotfiles.git ~/.dotfiles
 RUN ~/.dotfiles/install
