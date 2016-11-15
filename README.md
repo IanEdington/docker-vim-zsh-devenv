@@ -9,12 +9,14 @@ Create a linux work space that
 Start container with volumes attached
 
 ## TODO
-[x] create running image with vim and zsh
-[ ] implement yarn instead of npm
-[ ] compile YouCompleteMe with c# and rust
-[ ]
-[ ]
-[ ]
+- [x] create running image with vim and zsh
+- [ ] split into two images (base + IanEdington dotfiles)
+* [ ] make image smaller:
+    * [ ] remove vim build-deps
+    * [ ] remove YouCompleteMe build-deps
+- [ ] add image version for vanilla Yard
+- [ ] implement node deps with yarn instead of npm
+- [ ] compile YouCompleteMe with c# and rust completion
 
 ## Usage
 ~~~bash
