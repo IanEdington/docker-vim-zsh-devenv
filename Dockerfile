@@ -1,45 +1,54 @@
 FROM alpine:latest
 
 MAINTAINER IanEdington <IanEdington@gmail.com>
+ENV LastUpdate 2016-11-13-21-47
 
-RUN echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
- && echo '@community http://nl.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories
+RUN echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories
 
 RUN apk update \
  && apk upgrade \
  && apk add \
- zsh \
+ bash \
+ build-base \
  curl \
  ctags \
+ cmake \
+ ctags \
  git \
- python \
- bash \
- ncurses-terminfo \
- lua \
- luajit \
- ruby \
- python3 \
- python3-dev \
  go \
  llvm \
+ lua \
+ luajit \
+ make \
+ ncurses \
+ ncurses-dev \
+ ncurses-terminfo \
+ python \
+ python-dev \
+ python3 \
+ python3-dev \
  perl \
  perl-dev \
- cmake \
- editorconfig \
- python-dev \
- build-base \
- nodejs \
- rust \
- mono \
- libgcc libstdc++ libuv \
- libxt libx11 libstdc++ \
- python python-dev ctags build-base \
- make libxpm-dev libx11-dev libxt-dev ncurses-dev git \
- libsm libice libxt libx11 ncurses
+ ruby \
+ zsh \
+ libice \
+ libgcc \
+ libstdc++ \
+ libsm \
+ libuv \
+ libx11 \
+ libx11-dev \
+ libxpm-dev \
+ libxt \
+ libxt-dev
 
 # Make Vim
 RUN cd /tmp \
  && git clone  --depth 1 https://github.com/vim/vim.git
+
+RUN ln -s /usr/lib/python3.5/config-3.5m/ /usr/lib/python3.5/config
+
+# Build VIM
 RUN cd /tmp/vim \
  && ./configure --with-features=huge \
     --enable-multibyte \
