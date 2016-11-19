@@ -87,8 +87,8 @@ ENV GOBIN $GOROOT/bin
 ENV NODEBIN /usr/lib/node_modules/bin
 ENV TERM screen-256color
 
-ENTRYPOINT ["zsh"]
-CMD ["cd ~"]
+ENTRYPOINT ["/bin/zsh"]
+CMD ["cd", "~"]
 
 # install dotfiles
 RUN git clone --depth 1 https://gitlab.com/IanEdington/dotfiles.git ~/.dotfiles
