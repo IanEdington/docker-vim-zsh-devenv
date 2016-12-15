@@ -28,7 +28,6 @@ RUN apk update \
  ncurses-dev \
  ncurses-terminfo \
  nodejs \
- openjdk8 \
  python \
  python-dev \
  python3 \
@@ -99,6 +98,7 @@ RUN npm install -g eslint jshint typescript
 # symlink dotfiles
 RUN ln -s ~/.dotfiles/zsh ~/.zsh
 RUN ln -s ~/.zsh/zshenv ~/.zshenv
+RUN ln -s ~/.zsh/zshrc ~/.zsh/.zshenv
 RUN ln -s ~/.dotfiles/vim ~/.vim
 RUN ln -s ~/.vim/vimrc ~/.vimrc
 RUN ln -s ~/.vim/editorconfig ~/.editorconfig
@@ -114,7 +114,6 @@ RUN ln -s ~/.zsh/.zprezto/runcoms/zlogin ~/.zsh/.zlogin
 RUN ln -s ~/.zsh/.zprezto/runcoms/zlogout ~/.zsh/.zlogout
 RUN ln -s ~/.zsh/.zprezto/runcoms/zpreztorc ~/.zsh/.zpreztorc
 RUN ln -s ~/.zsh/.zprezto/runcoms/zprofile ~/.zsh/.zprofile
-RUN ln -s ~/.zsh/.zprezto/runcoms/zshenv ~/.zsh/.zshenv
 
 # download and install vundle for vim
 RUN git clone --depth 1 https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim \
@@ -126,3 +125,7 @@ RUN vim -E -u NONE -S ~/.vim/start_vundle.zshrc +PluginInstall +qall
 RUN cd ~/.vim/bundle/YouCompleteMe \
  && ./install.py --gocode-completer --tern-completer
 
+# Java
+ENV JAVA_HOME=/usr/lib/jvm/default-jvm
+RUN apk add --no-cache openjdk8 \
+ && ln -sf "${JAVA_HOME}/bin/"* "/usr/bin/"
