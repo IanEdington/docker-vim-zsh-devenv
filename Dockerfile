@@ -98,7 +98,7 @@ RUN npm install -g eslint jshint typescript
 # symlink dotfiles
 RUN ln -s ~/.dotfiles/zsh ~/.zsh
 RUN ln -s ~/.zsh/zshenv ~/.zshenv
-RUN ln -s ~/.zsh/zshrc ~/.zsh/.zshenv
+RUN ln -s ~/.zsh/zshrc ~/.zsh/.zshrc
 RUN ln -s ~/.dotfiles/vim ~/.vim
 RUN ln -s ~/.vim/vimrc ~/.vimrc
 RUN ln -s ~/.vim/editorconfig ~/.editorconfig
@@ -127,5 +127,6 @@ RUN cd ~/.vim/bundle/YouCompleteMe \
 
 # Java
 ENV JAVA_HOME=/usr/lib/jvm/default-jvm
+ENV CLASSPATH=.
 RUN apk add --no-cache openjdk8 \
  && ln -sf "${JAVA_HOME}/bin/"* "/usr/bin/"
