@@ -87,7 +87,7 @@ ENV NODEBIN /usr/lib/node_modules/bin
 ENV TERM screen-256color
 
 ENTRYPOINT ["/bin/zsh"]
-CMD ["cd", "~"]
+WORKDIR $HOME
 
 # install dotfiles
 RUN git clone --depth 1 https://gitlab.com/IanEdington/dotfiles.git ~/.dotfiles
