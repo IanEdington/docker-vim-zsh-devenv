@@ -128,5 +128,7 @@ RUN cd ~/.vim/bundle/YouCompleteMe \
 # Java
 ENV JAVA_HOME=/usr/lib/jvm/default-jvm
 ENV CLASSPATH=.
-RUN apk add --no-cache openjdk8 \
+RUN apk add --no-cache \
+        openjdk8 \
+        junit \
  && ln -sf "${JAVA_HOME}/bin/"* "/usr/bin/"
